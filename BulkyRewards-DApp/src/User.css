@@ -1,0 +1,61 @@
+.optinLogo {
+    height: 100px;
+    width: 200px;
+}
+
+.exchangeLogo{
+    height: 180px;
+    width: 240px;
+    margin-bottom: 15px;
+}
+
+.escrowLogo{
+    width: 300px;
+    height: 85px;
+    margin-bottom: 20px;
+}
+
+.escrowLogo2{
+    width: 80px;
+    height: 90px;
+}
+
+.app-box {
+    overflow-y: scroll;
+    height: fit-content;
+    max-height: 120px;
+}
+
+.button-box {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.row-button {
+    height: 100%;
+    width: 120px;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.row-button:active{
+    transform: translate(2px, 2px);
+}
+
+.row-button:hover{
+    background-color: #45A298 ;
+}
+
+.default-message-box b{
+    width: 100%;
+    height: 100%;
+}
+
+

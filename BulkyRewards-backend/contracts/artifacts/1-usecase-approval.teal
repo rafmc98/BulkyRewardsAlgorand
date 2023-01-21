@@ -1,0 +1,268 @@
+#pragma version 6
+txn ApplicationID
+int 0
+==
+bnz main_l14
+txn OnCompletion
+int OptIn
+==
+bnz main_l13
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l12
+txn OnCompletion
+int UpdateApplication
+==
+bnz main_l11
+txn OnCompletion
+int NoOp
+==
+bnz main_l6
+err
+main_l6:
+txna ApplicationArgs 0
+byte "deposit"
+==
+txn NumAppArgs
+int 3
+==
+&&
+bnz main_l10
+txna ApplicationArgs 0
+byte "optin_eco"
+==
+bnz main_l9
+err
+main_l9:
+callsub optineco_0
+int 1
+return
+main_l10:
+txn Sender
+byte "Creator"
+app_global_get
+==
+assert
+callsub updatevalues_1
+callsub sendreward_4
+int 1
+return
+main_l11:
+txn Sender
+byte "Creator"
+app_global_get
+==
+return
+main_l12:
+txn Sender
+byte "Creator"
+app_global_get
+==
+return
+main_l13:
+int 1
+return
+main_l14:
+byte "Creator"
+txn Sender
+app_global_put
+byte "tot_recycle_counter"
+int 0
+app_global_put
+byte "level_1"
+int 0
+app_global_put
+byte "level_2"
+int 0
+app_global_put
+byte "level_3"
+int 0
+app_global_put
+byte "level_4"
+int 0
+app_global_put
+byte "level_5"
+int 0
+app_global_put
+int 1
+return
+
+// optin_eco
+optineco_0:
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txna Assets 0
+itxn_field XferAsset
+int 0
+itxn_field AssetAmount
+global CurrentApplicationAddress
+itxn_field AssetReceiver
+itxn_submit
+retsub
+
+// update_values
+updatevalues_1:
+txna ApplicationArgs 2
+btoi
+int 1
+==
+bnz updatevalues_1_l9
+updatevalues_1_l1:
+txna ApplicationArgs 2
+btoi
+int 2
+==
+bnz updatevalues_1_l8
+updatevalues_1_l2:
+txna ApplicationArgs 2
+btoi
+int 3
+==
+bnz updatevalues_1_l7
+updatevalues_1_l3:
+txna ApplicationArgs 2
+btoi
+int 4
+==
+bnz updatevalues_1_l6
+updatevalues_1_l4:
+txna ApplicationArgs 2
+btoi
+int 5
+==
+bz updatevalues_1_l10
+byte "level_5"
+byte "level_5"
+app_global_get
+int 1
++
+app_global_put
+b updatevalues_1_l10
+updatevalues_1_l6:
+byte "level_4"
+byte "level_4"
+app_global_get
+int 1
++
+app_global_put
+b updatevalues_1_l4
+updatevalues_1_l7:
+byte "level_3"
+byte "level_3"
+app_global_get
+int 1
++
+app_global_put
+b updatevalues_1_l3
+updatevalues_1_l8:
+byte "level_2"
+byte "level_2"
+app_global_get
+int 1
++
+app_global_put
+b updatevalues_1_l2
+updatevalues_1_l9:
+byte "level_1"
+byte "level_1"
+app_global_get
+int 1
++
+app_global_put
+b updatevalues_1_l1
+updatevalues_1_l10:
+byte "tot_recycle_counter"
+byte "tot_recycle_counter"
+app_global_get
+int 1
++
+app_global_put
+retsub
+
+// get_weight_value
+getweightvalue_2:
+txna ApplicationArgs 1
+btoi
+int 0
+>=
+txna ApplicationArgs 1
+btoi
+int 10
+<=
+&&
+bnz getweightvalue_2_l10
+txna ApplicationArgs 1
+btoi
+int 11
+>=
+txna ApplicationArgs 1
+btoi
+int 50
+<=
+&&
+bnz getweightvalue_2_l9
+txna ApplicationArgs 1
+btoi
+int 51
+>=
+txna ApplicationArgs 1
+btoi
+int 100
+<=
+&&
+bnz getweightvalue_2_l8
+txna ApplicationArgs 1
+btoi
+int 101
+>=
+txna ApplicationArgs 1
+btoi
+int 200
+<=
+&&
+bnz getweightvalue_2_l7
+txna ApplicationArgs 1
+btoi
+int 201
+>=
+bnz getweightvalue_2_l6
+err
+getweightvalue_2_l6:
+int 5
+retsub
+getweightvalue_2_l7:
+int 4
+retsub
+getweightvalue_2_l8:
+int 3
+retsub
+getweightvalue_2_l9:
+int 2
+retsub
+getweightvalue_2_l10:
+int 1
+retsub
+
+// compute_reward
+computereward_3:
+callsub getweightvalue_2
+txna ApplicationArgs 2
+btoi
+*
+retsub
+
+// send_reward
+sendreward_4:
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txna Assets 0
+itxn_field XferAsset
+callsub computereward_3
+itxn_field AssetAmount
+txna Accounts 1
+itxn_field AssetReceiver
+itxn_submit
+retsub

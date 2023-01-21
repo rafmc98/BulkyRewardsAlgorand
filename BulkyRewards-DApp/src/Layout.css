@@ -1,0 +1,43 @@
+.navigation-container {
+    background-color:#D8F8B7;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.router-button {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.link:hover {
+    background-color: #9dca6d;
+}
+
+.activeLink {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 24px;
+}
+
+.activeLink .router-button{
+    color: white;
+    background-color: #45A298;
+}
+
+
